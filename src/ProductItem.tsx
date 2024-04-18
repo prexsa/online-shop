@@ -1,19 +1,18 @@
-import { Outlet, Link, useLoaderData, useParams } from 'react-router-dom';
+/* eslint-disable */
+import { useLocation } from 'react-router-dom';
 
 export default function ProductItem() {
-  const { productId } = useParams();
-  const { products } = useLoaderData();
-  // console.log(products);
-  const item = products.filter((p) => (p.id = productId))[0];
+  const location = useLocation();
+  const { state } = location;
   const {
     category,
     description,
-    id,
+    // id,
     image,
     price,
     rating: { rate, count },
     title,
-  } = item;
+  } = state;
   // console.log(item);
   /*
   const saveItemToIndexedDB = () => {
@@ -32,7 +31,7 @@ export default function ProductItem() {
   saveItemToIndexedDB();*/
 
   return (
-    <div className="item-container">
+    <div className="item-card">
       <div>
         <img src={image} width="250px" alt={title} aria-label={title} />
       </div>
@@ -63,3 +62,5 @@ export default function ProductItem() {
     </div>
   );
 }
+
+// https://ishadeed.com/article/star-rating-svg/

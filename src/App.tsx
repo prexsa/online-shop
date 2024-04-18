@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { Outlet, Link, useLoaderData } from 'react-router-dom';
+/* eslint-disable */
+import { useState } from 'react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
@@ -10,7 +11,7 @@ export async function loader() {
 }
 
 function App() {
-  // const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const { products } = useLoaderData();
   /*
@@ -29,34 +30,46 @@ function App() {
 
   return (
     <div>
-      <h2>Simple Online Store</h2>
-      <label htmlFor="categories" aria-label="product category">
-        Select a category:
-      </label>
-      <select name="categories" id="categories">
-        {categories.map((category, index) => {
-          return (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          );
-        })}
-      </select>
+      <div className="fixed-top-bar">
+        <div className="top-bar-nav">
+          <button className="cart-btn" onClick={() => alert('see the cart')}>
+            Cart
+          </button>
+        </div>
+      </div>
+      <div className="main-content">
+        <h2>Simple Online Store</h2>
+        <label htmlFor="categories" aria-label="product category">
+          Select a category:
+        </label>
+        <select name="categories" id="categories">
+          {categories.map((category, index) => {
+            return (
+              <option key={index} value={category}>
+                {category}
+              </option>
+            );
+          })}
+        </select>
 
-      <div className="product-list-container">
-        {products.map((item) => {
-          const { id, description, image, title, price, rating, category } = item;
-          return (
-            <div key={id} style={{ width: '200px' }}>
-              <Link to={`product/${id}`}>
+        <div className="product-listItem">
+          {products.map((item) => {
+            const { id, description, image, title, price, rating, category } = item;
+            return (
+              <div className="card-container" key={id} style={{ width: '200px' }}>
                 <img src={image} width="150px" height="150px" alt={title} />
                 <div>{title}</div>
                 {/*<div>{description}</div>*/}
                 <div>${price}</div>
-              </Link>
-            </div>
-          );
-        })}
+                <div className="card-footer">
+                  <button className="select-btn" onClick={() => navigate(`product/${id}`, { state: item })}>
+                    Select
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
