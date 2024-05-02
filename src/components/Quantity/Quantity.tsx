@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './quantity.css';
 
-const Quantity = () => {
-  const [value, setValue] = useState(1);
+interface IQuantity {
+  quantity: number;
+  setQuantity: () => void;
+}
+
+const Quantity = ({ quantity = 1, setQuantity }: IQuantity) => {
+  const [value, setValue] = useState(quantity);
 
   const handleSubtract = () => {
     if (value < 2) return;
@@ -13,6 +18,10 @@ const Quantity = () => {
     if (value >= 10) return;
     setValue(value + 1);
   };
+
+  useEffect(() => {
+    setQuantity(value);
+  }, [value, setQuantity]);
 
   return (
     <div className="quantity">
@@ -25,7 +34,7 @@ const Quantity = () => {
         value={value}
         min="1"
         max="10"
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setValue(Number(e.target.value))}
       />
       <button className="plus" aria-label="increase" onClick={handleAdd}>
         &#43;

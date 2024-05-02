@@ -1,10 +1,34 @@
-import Quantity from '../Quantity/Quantity.tsx';
+import './table.css';
+import TableRow from './TableRow.tsx';
+// import { Items } from '../../Items.types.ts';
 
-const Table = ({ items }) => {
+export interface Items {
+  category: string;
+  description: string;
+  id: number;
+  image: string;
+  price: number;
+  quantity: number;
+  rating: {
+    rate: number;
+    count: number;
+  };
+  title: string;
+  totalSum: number;
+}
+
+interface ITable {
+  items: Items;
+  mapQuantityToItem: (val: number) => val;
+  removeItemFromCart: (id: number) => id;
+}
+
+const Table = ({ items, mapQuantityToItem, removeItemFromCart }: ITable) => {
+  // console.log('items; ', items);
   return (
-    <table style={{ width: '100%' }}>
+    <table>
       <thead>
-        <tr style={{ textAlign: 'left', fontWeight: 600, fontSize: 20 }}>
+        <tr>
           <th>Product</th>
           <th>Quantity</th>
           <th>Price</th>
@@ -20,25 +44,10 @@ const Table = ({ items }) => {
         </tr>
 
         {items.map((item) => {
+          // console.log('item: ', item);
           return (
             <tr key={item.id}>
-              <td>
-                <div style={{ display: 'flex', flexDirection: 'row', columnGap: '50px' }}>
-                  <img style={{ width: '60px' }} src={item.image} alt={item.title} aria-label={item.title} />
-                  <div>
-                    <h4>{item.title}</h4>
-                  </div>
-                </div>
-              </td>
-              <td style={{ verticalAlign: 'top' }}>
-                <Quantity />
-              </td>
-              <td style={{ verticalAlign: 'top', textAlign: 'left' }}>
-                <h2>{item.price}</h2>
-              </td>
-              <td style={{ width: '27px', verticalAlign: 'top' }}>
-                <button>X</button>
-              </td>
+              <TableRow item={item} mapQuantityToItem={mapQuantityToItem} removeItemFromCart={removeItemFromCart} />
             </tr>
           );
         })}
@@ -48,3 +57,6 @@ const Table = ({ items }) => {
 };
 
 export default Table;
+
+// https://www.freecodecamp.org/news/use-typescript-with-react/
+// https://blog.logrocket.com/how-to-use-typescript-react-tutorial-examples/

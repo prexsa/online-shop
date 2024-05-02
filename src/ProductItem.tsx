@@ -38,9 +38,9 @@ export default function ProductItem() {
     setAddToCart([...addToCart, state]);
     let cart = localStorage.getItem('cart');
     // console.log(cart);
-    if (cart !== null) {
+    if (cart !== '') {
       const parsed = JSON.parse(cart);
-      const isFound = parsed.filter((item) => item.id === id);
+      const isFound = parsed.filter((item: any) => item.id === id);
       if (isFound.length > 0) return;
       parsed.push(state);
       localStorage.setItem('cart', JSON.stringify(parsed));
@@ -49,7 +49,7 @@ export default function ProductItem() {
     }
   };
 
-  console.log(addToCart);
+  // console.log(addToCart);
 
   return (
     <>
